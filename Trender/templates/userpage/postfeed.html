@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block nav_btn1 %}
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-outline-primary ml-4" data-toggle="modal" data-target="#PostModal">
+Post
+</button>
+{% endblock nav_btn1 %}
+
+{% block css %}
+
+#post_img
+{
+  width:450;
+  height:360;
+}
+#post_div
+{
+  width:600px;
+}
+{% endblock css%}
+
+{% block body %}
+{% for i in posts %}
+<div class="container my-4" id="post_div">
+<div class="card">
+    <h5 class="card-header">{{i.user}}<small>{{i.data.date}}</small></h5>
+    <div class="card-body">
+      <p class="card-text">{{i.captions}}</p>
+      {% if i.image %}
+      <img src="{{i.image.url}}" alt="Image" id='post_img'>
+      {% endif %}
+      <hr size='30px'>
+      <button class="btn btn-primary mr-4">Like</button>
+      <button class="btn btn-primary mr-4">Comment</button>
+      <button class="btn btn-primary mr-4">Delete Post</button>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock body %}
+
+{% block modals %}
+
+
+<!-- Modal -->
+<div class="modal fade" id="PostModal" tabindex="-1" aria-labelledby="PostModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="PostModalLabel">Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/userpage/post" method="POST", enctype="multipart/form-data"> 
+          {% csrf_token %}
+          <label for="image">Image:</label>
+          <input type="file" name="image" id="image">
+          <br><br>
+          <label for="capttext">Captions:</label>
+          <br>
+          <textarea name="captions" id="captions" cols="30" rows="10" placeholder="Any Captions......" class="ml-4"></textarea>
+         <hr size='30'> 
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Post IT</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock modals %}
