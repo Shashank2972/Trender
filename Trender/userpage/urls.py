@@ -7,5 +7,6 @@ app_name = 'userpage'
 urlpatterns = [
     path('',views.userHome,name='userHome'),
     path('post', views.post, name='post'),
+    path("<int:postId>", views.delPost, name='delPost'),
     path("<str:username>", views.userProfile, name='userProfile' ),
 ]

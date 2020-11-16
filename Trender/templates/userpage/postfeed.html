@@ -34,7 +34,9 @@ Post
       <hr size='30px'>
       <button class="btn btn-primary mr-4">Like</button>
       <button class="btn btn-primary mr-4">Comment</button>
-      <button class="btn btn-primary mr-4">Delete Post</button>
+      {% if request.user == i.user %}
+      <a class="btn btn-primary mr-4" href="{% url 'userpage:delPost' i.id%}">Delete Post</a>
+      {% endif %}
     </div>
   </div>
 </div>

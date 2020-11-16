@@ -24,3 +24,11 @@ def post(request):
 
 def userProfile(request, username):
     return render(request, 'userpage/userProfile.html')
+
+def delPost(request, postId):
+    post_ = Post.objects.filter(pk=postId)
+    # print(post_)
+    image_path = post_[0].image.url
+    post_.delete()
+    messages.info(request, "Post Deleted")
+    return redirect('/userpage')
