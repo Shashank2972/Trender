@@ -21,3 +21,6 @@ def post(request):
     else:
         messages.error(request,"Something went Wrong : (")
         return redirect('/userpage')
+
+def userProfile(request, username):
+    return render(request, 'userpage/userProfile.html')

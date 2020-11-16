@@ -25,7 +25,7 @@ Post
 {% for i in posts %}
 <div class="container my-4" id="post_div">
 <div class="card">
-    <h5 class="card-header">{{i.user}}<small>{{i.data.date}}</small></h5>
+    <h5 class="card-header"><a href="{% url 'userpage:userProfile' i.user %}">{{i.user}}</a><small>{{i.data.date}}</small></h5>
     <div class="card-body">
       <p class="card-text">{{i.captions}}</p>
       {% if i.image %}

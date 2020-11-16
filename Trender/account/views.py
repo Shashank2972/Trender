@@ -14,6 +14,12 @@ def signup(request):
         name = request.POST.get('name','')
         password = request.POST.get('password','')
         conf_pass = request.POST.get('cpassword','')
+
+        userCheck = User.objects.filter(username=username)
+        if(userCheck):
+            messages.error(request, 'Oops!! Username already taken')
+            return redirect('/')
+
         if password==conf_pass:
             user_obj = User.objects.create_user(first_name =name, password = password, email= mail, username =username)
             user_obj.save()
