@@ -8,5 +8,17 @@ class Post(models.Model):
     image = models.ImageField(upload_to = "user_image" , blank=True)
     date = models.DateTimeField(auto_now_add=True)
 
-def __str__(self):
-    return (self.user) + ' '+ str(date.date())
+    def __str__(self):
+        return (self.user) + ' '+ str(date.date())
+
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    userImage = models.ImageField(upload_to = "Profiles", default = "default/default.png")
+    bio = models.CharField(max_length=100, blank = True)
+    connection = models.CharField(max_length = 100, blank=True)
+    follower = models.IntegerField(default=0)
+    following = models.IntegerField(default=0)
+
+
+    def __str__(self):
+        return str(self.user)

@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib import messages
-from .models import Post
+from .models import Post, Profile
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -23,7 +24,25 @@ def post(request):
         return redirect('/userpage')
 
 def userProfile(request, username):
-    return render(request, 'userpage/userProfile.html')
+    user = User.objects.filter(username=username)
+    if user:
+        user = user[0]
+        profile = Profile.objects.get(user=user)
+        bio = profile.bio
+        conn = profile.connection
+        user_img = profile.userImage
+        
+        data = {
+            'user_obj':user,
+            'bio':bio,
+            'conn':conn,
+            'userImg':user_img,
+            'posts':post,
+        }
+    else: return HttpResponse("NO SUCH USER")
+
+    return render(request, 'userpage/userProfile.html', data)
+
 
 def delPost(request, postId):
     post_ = Post.objects.filter(pk=postId)

@@ -1,7 +1,52 @@
 {% extends 'base.html' %}
 
 
+{% block css %}
+
+.userImage
+{
+width:200px;
+height:200px;
+border-radius:50%;
+}
+
+.info
+{
+padding-top:2%;
+padding-left:3%;
+}
+
+hr
+{
+border-top: 2px solid #000000;
+}
+
+{% endblock css %}
+
+
 {% block body %}
-<h1>{{request.user}}</h1>
-<h2>Hello World!</h2>
+
+<div class="container my-4">
+    <div class="media">
+        <img src="{{userImg.url}}" class="align-self-start mr-3 userImage" alt="...">
+        <div class="media-body info">
+            <h4 class="mt-0">{{user_obj.username}}
+                {% if request.user == user_obj %}
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#EditModal">
+                    Edit
+                </button>
+                {% elif connection %}
+                <a type="button" class="btn btn-outline-primary" id="follow" role="button" href="">Unfollow</a>
+                {% elif not connection %}
+                <a type="button" class="btn btn-outline-primary" id="follow" role="button" href="" %}">Follow</a>
+                {% endif %}
+            </h4>
+            <p>Follower : {{follower}} Following : {{following}}</p>
+            <p><b>{{bio}}</b></p>
+        </div>
+    </div>
+
+    <hr>
+
 {% endblock body %}
+
