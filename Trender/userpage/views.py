@@ -3,7 +3,7 @@ from django.contrib import messages
 from .models import Post, Profile
 from django.contrib.auth.models import User
 # Create your views here.
-
+import os
 
 def userHome(request):
     posts = Post.objects.all().order_by('-pk')
@@ -52,8 +52,9 @@ def getPosts(user):
 def delPost(request, postId):
     post_ = Post.objects.filter(pk=postId)
     # print(post_)
-    # print(post_[0].image.url)
+    # print(post_[0].image.url, post_[0].image.path)
     image_path = post_[0].image.url
+    os.remove(post_[0].image.path)
     post_.delete()
     messages.info(request, "Post Deleted")
     return redirect('/userpage')

@@ -15,7 +15,7 @@ Post
   width:450;
   height:360;
 }
-#post_div
+.post_div
 {
   width:600px;
 }
@@ -23,7 +23,7 @@ Post
 
 {% block body %}
 {% for i in posts %}
-<div class="container my-4" id="post_div">
+<div class="container my-4 post_div" id="{{i.id}}">
 <div class="card">
     <h5 class="card-header"><a href="{% url 'userpage:userProfile' i.user %}">{{i.user}}</a><small>{{i.data.date}}</small></h5>
     <div class="card-body">
@@ -35,7 +35,7 @@ Post
       <button class="btn btn-primary mr-4">Like</button>
       <button class="btn btn-primary mr-4">Comment</button>
       {% if request.user == i.user %}
-      <a class="btn btn-primary mr-4" href="{% url 'userpage:delPost' i.id%}">Delete Post</a>
+      <a class="btn btn-primary mr-4 delete" href="{% url 'userpage:delPost' i.id%}" id="{{ i.id }}">Delete Post</a>
       {% endif %}
     </div>
   </div>
@@ -74,4 +74,23 @@ Post
   </div>
 </div>
 
+{% block js %}
+<script>
+  $(".delete").click(function (e) {
+    var id = this.id;
+    var href = this.href;
+    console.log(href, id) // get href from link
+    e.preventDefault(); // don't follow the link
+
+    $.ajax({
+      url: href,
+      data: {},
+    });
+
+    $("#" + id).fadeOut(1000);
+
+});
+
+</script>
+{% endblock js %}
 {% endblock modals %}
