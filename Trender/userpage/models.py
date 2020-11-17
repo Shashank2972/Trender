@@ -11,6 +11,7 @@ class Post(models.Model):
     def __str__(self):
         return str(self.user) + ' '+ str(self.date.date())
 
+
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     userImage = models.ImageField(upload_to = "Profiles", default = "default/default.png")
