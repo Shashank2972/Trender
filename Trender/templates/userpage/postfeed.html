@@ -35,7 +35,15 @@ Logout
       <img src="{{i.image.url}}" alt="Image" id='post_img'>
       {% endif %}
       <hr size='30px'>
-      <button class="btn btn-primary mr-4">Like</button>
+
+      <button class="btn btn-light mr-3 like" id="{{ i.id }}">
+        {% if i in liked_post %}
+            <a href="{% url 'userpage:like_dislike_post' %}" style="color:red;" id="likebtn{{ i.id }}"> Liked </a>
+        {% else %}
+            <a href="{% url 'userpage:like_dislike_post' %}" style="color:red;" id="likebtn{{ i.id }}"> Like </a>
+        {% endif %}
+      </button>
+
       <button class="btn btn-primary mr-4">Comment</button>
       {% if request.user == i.user %}
       <a class="btn btn-primary mr-4 delete" href="{% url 'userpage:delPost' i.id%}" id="{{ i.id }}">Delete Post</a>
@@ -82,7 +90,7 @@ Logout
   $(".delete").click(function (e) {
     var id = this.id;
     var href = this.href;
-    console.log(href, id) // get href from link
+    //console.log(href, id) // get href from link 
     e.preventDefault(); // don't follow the link
 
     $.ajax({
@@ -92,7 +100,30 @@ Logout
 
     $("#" + id).fadeOut(1000);
 
-});
+  });
+
+  
+  $(".like").click(function (e) {
+    var id = this.id; //$(this).attr('id');
+    var href = $('.like').find('a').attr('href');
+    e.preventDefault(); // don't follow the link
+
+    $.ajax({
+        url: href,
+        data: {
+          'likeId': id
+        },
+        success: function(response){
+          if(response.liked){
+            $('#likebtn' + id).html("Liked");
+          }
+          else{
+            $('#likebtn' + id).html("Like");
+          }
+        }
+      })
+  });
+
 
 </script>
 {% endblock js %}

@@ -1,9 +1,9 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib import messages
-from .models import Post, Profile
+from .models import Post, Profile, Like
 from django.contrib.auth.models import User
 # Create your views here.
-import os
+import os, json
 
 def userHome(request):
     posts = Post.objects.all().order_by('-pk')
@@ -58,3 +58,22 @@ def delPost(request, postId):
     post_.delete()
     messages.info(request, "Post Deleted")
     return redirect('/userpage')
+
+def likePost(request):
+    post_id = request.GET.get("likeId", "")
+    post = Post.objects.get(pk=post_id)
+    user = request.user
+    like = Like.objects.filter(post = post, user=user)
+    liked = False
+
+    if like:
+        Like.dislike(post, user)
+    else:
+        liked = True
+        Like.like(post, user)
+
+    resp = {
+        'liked':liked
+    }
+    response = json.dumps(resp)
+    return HttpResponse(response, content_type = "application/json")
