@@ -16,6 +16,12 @@ padding-top:2%;
 padding-left:3%;
 }
 
+.postappro{
+    width:350px;
+    height:200px;
+    margin-bottom:15px;
+}
+
 hr
 {
 border-top: 2px solid #000000;
@@ -48,5 +54,14 @@ border-top: 2px solid #000000;
 
     <hr>
 
+    <div class = "row">
+        {% for i in posts %}
+            {% for j in i %}
+            <div class = "col-md-4">
+                <img src="{{j.image.url}}" alt="Image" class='postappro'>
+            </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
 {% endblock body %}
 

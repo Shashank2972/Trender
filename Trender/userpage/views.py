@@ -28,6 +28,7 @@ def userProfile(request, username):
     if user:
         user = user[0]
         profile = Profile.objects.get(user=user)
+        post = getPosts(user)
         bio = profile.bio
         conn = profile.connection
         user_img = profile.userImage
@@ -43,10 +44,15 @@ def userProfile(request, username):
 
     return render(request, 'userpage/userProfile.html', data)
 
+def getPosts(user):
+    post_obj = Post.objects.filter(user=user)
+    img_List = [post_obj[i:i+3] for i in range(0,len(post_obj),3)]
+    return img_List
 
 def delPost(request, postId):
     post_ = Post.objects.filter(pk=postId)
     # print(post_)
+    # print(post_[0].image.url)
     image_path = post_[0].image.url
     post_.delete()
     messages.info(request, "Post Deleted")
