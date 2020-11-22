@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib import messages
-from .models import Post, Profile, Like
+from .models import Post, Profile, Like, Following
 from django.contrib.auth.models import User
 # Create your views here.
 import os, json
@@ -77,3 +77,23 @@ def likePost(request):
     }
     response = json.dumps(resp)
     return HttpResponse(response, content_type = "application/json")
+
+def follow(request, username):
+    main_user = request.user
+    to_follow = User.objects.get(username= username)
+
+    following = Following.objects.filter(user = main_user, followed= to_follow)
+    is_following= True if following else False
+
+    if is_following:
+        Following.unfollow(main_user, to_follow)
+        is_following =False
+    else:
+        Following.follow(main_user, to_follow)
+        is_following = True
+
+    resp = {
+        "following" : is_following,
+    }
+    response = json.dumps(resp)
+    return HttpResponse(response, content_type="application/json")

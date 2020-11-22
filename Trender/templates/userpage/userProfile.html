@@ -26,7 +26,14 @@ hr
 {
 border-top: 2px solid #000000;
 }
-
+#follow
+{
+    color:blue;
+}
+#follow:hover
+{
+    color:white;
+}
 {% endblock css %}
 
 
@@ -37,15 +44,7 @@ border-top: 2px solid #000000;
         <img src="{{userImg.url}}" class="align-self-start mr-3 userImage" alt="...">
         <div class="media-body info">
             <h4 class="mt-0">{{user_obj.username}}
-                {% if request.user == user_obj %}
-                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#EditModal">
-                    Edit
-                </button>
-                {% elif connection %}
-                <a type="button" class="btn btn-outline-primary" id="follow" role="button" href="">Unfollow</a>
-                {% elif not connection %}
-                <a type="button" class="btn btn-outline-primary" id="follow" role="button" href="" %}">Follow</a>
-                {% endif %}
+                <a type="button" class="btn btn-outline-primary" id="follow" role="button" href="{% url 'userpage:follow' user_obj.username %}" >Follow</a>
             </h4>
             <p>Follower : {{follower}} Following : {{following}}</p>
             <p><b>{{bio}}</b></p>
@@ -65,3 +64,22 @@ border-top: 2px solid #000000;
     </div>
 {% endblock body %}
 
+{% block js%}
+<script type="text/javascript">
+    $("#follow").click(function(e){
+        e.preventDefault();
+        var href =  this.href;
+        $.ajax({
+            url : href,
+            success : function(response){
+                if(response["following"]){
+                    $("#follow").html("Unfollow");
+                }
+                else{
+                    $("#follow").html("Follow");
+                }
+            }
+        })
+    })
+</script>
+{% endblock js%}

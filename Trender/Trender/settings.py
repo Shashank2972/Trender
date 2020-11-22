@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'userpage.middleware.LoginRequiredMiddleware'
 ]
 
 ROOT_URLCONF = 'Trender.urls'
@@ -126,3 +127,6 @@ MESSAGES_TAGS= {constants.ERROR: 'danger'}
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "user_image/")
+
+HOME_URL = "/"
+LOGIN_URL = "/login"

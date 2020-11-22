@@ -44,7 +44,7 @@ Logout
         {% endif %}
       </button>
 
-      <button class="btn btn-primary mr-4">Comment</button>
+
       {% if request.user == i.user %}
       <a class="btn btn-primary mr-4 delete" href="{% url 'userpage:delPost' i.id%}" id="{{ i.id }}">Delete Post</a>
       {% endif %}
