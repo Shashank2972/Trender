@@ -44,7 +44,11 @@ border-top: 2px solid #000000;
         <img src="{{userImg.url}}" class="align-self-start mr-3 userImage" alt="...">
         <div class="media-body info">
             <h4 class="mt-0">{{user_obj.username}}
-                <a type="button" class="btn btn-outline-primary" id="follow" role="button" href="{% url 'userpage:follow' user_obj.username %}" >Follow</a>
+                {% if connection and not request.user == user_obj %}
+                <a type="button" class="btn btn-outline-primary" id="follow" role="button" href="{% url 'userpage:follow' user_obj.username %}" >Unfollow</a>
+                {% elif not connection and not request.user == user_obj %}
+                <a type="button" class="btn btn-outline-primary" id="follow" role="button" href="{% url 'userpage:follow' user_obj.username %}" >follow</a>
+                {% endif %}
             </h4>
             <p>Follower : {{follower}} Following : {{following}}</p>
             <p><b>{{bio}}</b></p>

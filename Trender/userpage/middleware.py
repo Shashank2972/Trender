@@ -16,5 +16,5 @@ class LoginRequiredMiddleware:
         if authenticated and url == settings.HOME_URL:
             logout(request)
         
-        if not authenticated and (url != settings.HOME_URL and url != settings.LOGIN_URL):
+        if not authenticated and (url != settings.HOME_URL and url not in settings.EXEMPT_URLS):
             return redirect(settings.HOME_URL)

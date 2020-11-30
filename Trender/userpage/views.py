@@ -32,13 +32,19 @@ def userProfile(request, username):
         bio = profile.bio
         conn = profile.connection
         user_img = profile.userImage
+        is_following = Following.objects.filter(user = request.user, followed = user)
         
+        following_obj = Following.objects.get(user = user)
+        follower, following = following_obj.follower.count(), following_obj.followed.count()
         data = {
             'user_obj':user,
             'bio':bio,
             'conn':conn,
+            'follower':follower,
+            'following': following,
             'userImg':user_img,
             'posts':post,
+            'connection':is_following
         }
     else: return HttpResponse("NO SUCH USER")
 
@@ -83,7 +89,7 @@ def follow(request, username):
     to_follow = User.objects.get(username= username)
 
     following = Following.objects.filter(user = main_user, followed= to_follow)
-    is_following= True if following else False
+    is_following = True if following else False
 
     if is_following:
         Following.unfollow(main_user, to_follow)

@@ -43,7 +43,7 @@ class Like(models.Model):
 class Following(models.Model):
     user = models.OneToOneField(User, on_delete= models.CASCADE)
     followed= models.ManyToManyField(User, related_name="followed")
-
+    follower = models.ManyToManyField(User, related_name="follower")
     @classmethod
     def follow(cls, user, another_account):
         obj, create = cls.objects.get_or_create(user= user)

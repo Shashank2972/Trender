@@ -129,4 +129,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "user_image/")
 
 HOME_URL = "/"
-LOGIN_URL = "/login"
+EXEMPT_URLS = ["/login", "/signup"]
