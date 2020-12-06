@@ -10,5 +10,23 @@
       </div>
     </div>
     {% endfor %}
+
+    {% if is_paginated %}
+      <!-- <a href="?page=1" role="button" class="btn btn-outline-primary">1</a> -->
+
+      {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}" role="button" class="btn btn-outline-primary">prev</a>
+      {% endif %}
+
+      {% if page_obj.number != 1 %}
+      <a href="?page={{ page_obj.number }}" class="btn btn-primary">{{ page_obj.number }}</a>
+      {% endif %}
+
+      {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" role="button" class="btn btn-outline-primary">next</a>
+      {% endif %}
+
+    {% endif %}
+
   </div>
 {% endblock body %}
