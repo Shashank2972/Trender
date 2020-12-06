@@ -4,7 +4,8 @@ from .models import Post, Profile, Like, Following
 from django.contrib.auth.models import User
 # Create your views here.
 import os, json
-
+from django.views.generic import ListView
+from django.core.paginator import Paginator
 def userHome(request):
     posts = Post.objects.all().order_by('-pk')
     data = {'posts':posts}
@@ -97,3 +98,14 @@ def follow(request, username):
     }
     response = json.dumps(resp)
     return HttpResponse(response, content_type="application/json")
+
+class Search_User(ListView):
+    model = User
+    template_name = "userpage/searchUser.html"
+    
+    def get_queryset(self):
+        username = self.request.GET.get("username","")
+        print(username)
+        queryset = User.objects.filter(username__icontains=username)
+        print(queryset)
+        return queryset

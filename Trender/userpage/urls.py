@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from .views import Search_User
 
 app_name = 'userpage'
 
@@ -11,4 +12,5 @@ urlpatterns = [
     path("<int:postId>", views.delPost, name='delPost'),
     path("<str:username>", views.userProfile, name='userProfile' ),
     path("user/follow/<str:username>", views.follow, name="follow"),
+    path("search/", Search_User.as_view(), name="search_user"),
 ]
