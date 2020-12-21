@@ -108,7 +108,7 @@ def follow(request, username):
 class Search_User(ListView):
     model = User
     template_name = "userpage/searchUser.html"
-    paginate_by = 1
+    paginate_by = 2
     def get_queryset(self):
         username = self.request.GET.get("username","")
         print(username)
