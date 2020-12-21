@@ -6,9 +6,16 @@ from django.contrib.auth.models import User
 import os, json
 from django.views.generic import ListView
 from django.core.paginator import Paginator
+from django.conf import settings
 def userHome(request):
-    posts = Post.objects.all().order_by('-pk')
-    data = {'posts':posts}
+    user = Following.objects.get(user = request.user)
+    following_obj = Following.objects.get(user = request.user)
+    followed_users = [i for i in user.followed.all()]
+    followed_users.append(request.user)
+    posts = Post.objects.filter(user__in = followed_users).order_by('-pk')
+    liked_ = [i for i in posts if Like.objects.filter(post = i, user = request.user)]
+    data = {'posts':posts,
+    'liked_post':liked_}
     return render(request,"userpage/postfeed.html",data)
 
 def post(request):
